@@ -3,7 +3,7 @@ require('dotenv').config();
 var config = {
   infra: {
     region: process.env.AWS_REGION || "us-west-2",
-    dynamodb_table: "HotelRooms",
+    dynamodb_table: process.env.DYNAMODB_TABLE_NAME || "Rooms",
     dynamodb_endpoint: process.env.DYNAMODB_ENDPOINT || "http://127.0.0.1:8001"
   },
   app: {
