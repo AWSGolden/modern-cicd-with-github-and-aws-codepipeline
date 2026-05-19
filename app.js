@@ -23,6 +23,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+// Simulated production issue - intermittent 500 errors
+app.use(function(req, res, next) {
+  if (req.path !== '/' && Math.random() < 0.8) {
+    return res.status(500).json({ error: 'Internal Server Error', message: 'Database connection pool exhausted' });
+  }
+  next();
+});
+
 app.use("/", indexRouter);
 app.use("/add", addRouter);
 app.use("/rooms", roomsRouter);
