@@ -23,6 +23,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+// FAULT INJECTION: Health check returns 500 (server starts but ALB marks unhealthy)
+app.get("/", function (req, res) {
+  res.status(500).send("Internal Server Error - Fault Injection Active");
+});
+
 app.use("/", indexRouter);
 app.use("/add", addRouter);
 app.use("/rooms", roomsRouter);
